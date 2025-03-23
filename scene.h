@@ -25,5 +25,7 @@ private:
     static constexpr int mWindowWidth { 1280 };
     static constexpr int mWindowHeight { 720 };
 
+    bool mShowGrid { false };
+
     std::unique_ptr<SceneCamera> mCamera = nullptr;
 };
