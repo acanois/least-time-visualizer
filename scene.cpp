@@ -28,6 +28,12 @@ void Scene::draw() {
     BeginDrawing();
     ClearBackground(Color { 37, 36, 34, 255 });
     mCamera->beginMode3d();
+
+    DrawCube(Vector3 { 0.f, 0.f, 0.f }, 2.0f, 2.0f, 2.0f, Color { 55, 114, 255, 255 });
+    DrawCubeWires(Vector3 { 0.f, 0.f, 0.f }, 2.0f, 2.0f, 2.0f, Color { 243, 41, 53, 255 });
+
+    DrawGrid(10, 1.0f);
+
     mCamera->endMode3d();
     EndDrawing();
 }
