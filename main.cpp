@@ -2,10 +2,11 @@
 
 #include "raylib.h"
 
-#include <iostream>
+#include <memory>
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    std::unique_ptr<Scene> scene = std::make_unique<Scene>();
+    scene->run();
 
     return 0;
 }

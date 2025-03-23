@@ -10,17 +10,20 @@
 
 class Scene {
 public:
-    Scene() = default;
-    Scene(Scene&&) = default;
+    Scene();
 
-    Scene& operator=(const Scene&) = default;
-    Scene& operator=(const Scene&&) = delete;
 
-    ~Scene() = default;
+public:
+    void run();
+
 
 private:
     void draw();
 
-    std::unique_ptr<SceneCamera> mCamera = nullptr;
 
+private:
+    static constexpr int mWindowWidth { 1280 };
+    static constexpr int mWindowHeight { 720 };
+
+    std::unique_ptr<SceneCamera> mCamera = nullptr;
 };
