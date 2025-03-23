@@ -27,8 +27,8 @@ void SceneCamera::updateCamera() {
 
 void SceneCamera::updateOrbitalCamera(float angle, float radius) {
     mCamera.position = Vector3 {
-        angle,
         cos(angleToRads(angle)) * radius,
+        0.f,
         sin(angleToRads(angle)) * radius
     };
 }
