@@ -23,7 +23,12 @@ void Scene::run() {
     SetConfigFlags(FLAG_MSAA_4X_HINT);
 
     RenderTexture2D target = LoadRenderTexture(1280, 720);
-    Shader shader = LoadShader(nullptr, "/Users/davidrichter/CLionProjects/LeastTimeVizualizer/resources/shaders/bloom.fs");
+
+    // GetWorkingDirectory returns the build directory, hence GetPrevDirectoryPath
+    auto rootDir = GetPrevDirectoryPath(GetWorkingDirectory());
+    auto shaderFile = "bloom.fs";
+    auto shaderPath = std::format("{}/resources/shaders/{}", rootDir, shaderFile);
+    Shader shader = LoadShader(nullptr, shaderPath.c_str());
     while (!WindowShouldClose()) {
         BeginTextureMode(target);
         ClearBackground(Color { 37, 36, 34, 255 });
