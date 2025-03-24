@@ -33,6 +33,8 @@ add_executable(${PROJECT_NAME} main.cpp
     scene.h
     scene.cpp
     scenecamera.h
-    scenecamera.cpp)
+    scenecamera.cpp
+    resources/shaders/bloom.fs
+)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE ${RAYLIB_LIB})

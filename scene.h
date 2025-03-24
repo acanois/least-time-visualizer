@@ -6,12 +6,12 @@
 
 #include "scenecamera.h"
 
+#include <iostream>
 #include <memory>
 
 class Scene {
 public:
     Scene();
-
 
 public:
     void run();
