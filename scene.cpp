@@ -20,7 +20,10 @@ Scene::Scene()
 void Scene::run() {
     InitWindow(mWindowWidth, mWindowHeight, "Least Time");
     SetTargetFPS(60);
+    
     SetConfigFlags(FLAG_MSAA_4X_HINT);
+    SetConfigFlags(FLAG_WINDOW_HIGHDPI);
+    SetConfigFlags(FLAG_VSYNC_HINT);
 
     RenderTexture2D target = LoadRenderTexture(1280, 720);
 
