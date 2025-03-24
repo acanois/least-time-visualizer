@@ -20,7 +20,7 @@ Scene::Scene()
 void Scene::run() {
     InitWindow(mWindowWidth, mWindowHeight, "Least Time");
     SetTargetFPS(60);
-    
+
     SetConfigFlags(FLAG_MSAA_4X_HINT);
     SetConfigFlags(FLAG_WINDOW_HIGHDPI);
     SetConfigFlags(FLAG_VSYNC_HINT);
@@ -94,8 +94,12 @@ void Scene::run() {
         BeginShaderMode(shader);
         DrawTextureRec(
             target.texture,
-            (Rectangle){ 0, 0, (float)target.texture.width, (float)-target.texture.height },
-            (Vector2){ 0, 0 },
+            Rectangle {
+                0, 0,
+                static_cast<float>(target.texture.width),
+                static_cast<float>(-target.texture.height) // Inverted because OpenGL coordinates
+            },
+            Vector2 { 0, 0 },
             WHITE
         );
         EndShaderMode();
