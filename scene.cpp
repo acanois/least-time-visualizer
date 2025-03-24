@@ -17,6 +17,15 @@ Scene::Scene()
 
 }
 
+Shader Scene::loadShader(std::string fileName) {
+    auto rootDir = GetPrevDirectoryPath(GetWorkingDirectory());
+    auto shaderPath = std::format("{}/resources/shaders/{}", rootDir, fileName);
+
+    Shader shader = LoadShader(nullptr, shaderPath.c_str());
+
+    return shader;
+}
+
 void Scene::run() {
     InitWindow(mWindowWidth, mWindowHeight, "Least Time");
     SetTargetFPS(60);
@@ -28,10 +37,8 @@ void Scene::run() {
     RenderTexture2D target = LoadRenderTexture(1280, 720);
 
     // GetWorkingDirectory returns the build directory, hence GetPrevDirectoryPath
-    auto rootDir = GetPrevDirectoryPath(GetWorkingDirectory());
-    auto shaderFile = "bloom.fs";
-    auto shaderPath = std::format("{}/resources/shaders/{}", rootDir, shaderFile);
-    Shader shader = LoadShader(nullptr, shaderPath.c_str());
+    auto shader = loadShader("bloom.fs");
+
     while (!WindowShouldClose()) {
         BeginTextureMode(target);
         ClearBackground(Color { 37, 36, 34, 255 });

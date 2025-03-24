@@ -21,6 +21,7 @@ public:
 private:
     void update();
     void draw();
+    static Shader loadShader(std::string fileName);
 
 
 private:
