@@ -7,6 +7,9 @@
 #include "scenecamera.h"
 #include "crystal.h"
 
+#include "raylib.h"
+#include "rlgl.h"
+
 #include <iostream>
 #include <format>
 #include <memory>

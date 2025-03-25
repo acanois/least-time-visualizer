@@ -1,7 +1,5 @@
 #include "scene.h"
 
-#include "raylib.h"
-
 #include <memory>
 
 int main() {

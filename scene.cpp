@@ -13,7 +13,7 @@ Scene::Scene()
         45.f,
         CAMERA_PERSPECTIVE
     )),
-    mCrystal(std::make_unique<Crystal>(6.f))
+    mCrystal(std::make_unique<Crystal>(Vector3 { 0.f, 0.f, 0.f }, 6.f))
 {
 
 }
@@ -35,6 +35,8 @@ void Scene::run() {
     SetConfigFlags(FLAG_WINDOW_HIGHDPI);
     SetConfigFlags(FLAG_VSYNC_HINT);
 
+    rlSetBlendMode(RL_BLEND_DST_ALPHA);
+
     RenderTexture2D target = LoadRenderTexture(1280, 720);
 
     // GetWorkingDirectory returns the build directory, hence GetPrevDirectoryPath
@@ -46,6 +48,14 @@ void Scene::run() {
         mCamera->beginMode3d();
 
         mCrystal->draw();
+
+        DrawSphereWires(
+            Vector3 { 0.f, 0.f, 0.f },
+            50.f,
+            6.f,
+            12.f,
+            Color{ 39, 39, 96, 255 }
+        );
 
         if (IsKeyPressed(KEY_G)) mShowGrid = !mShowGrid;
         if (mShowGrid) DrawGrid(10, 1.0f);
@@ -78,7 +88,8 @@ void Scene::run() {
 
 void Scene::update() {
     mCameraTheta += 0.1;
-    mCamera->updateOrbitalCamera(mCameraTheta, 20.f);
+//    mCamera->updateOrbitalCamera(mCameraTheta, 20.f);
+    mCrystal->update();
 }
 
 void Scene::draw() {

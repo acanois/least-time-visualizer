@@ -5,16 +5,21 @@
 #pragma once
 
 #include "raylib.h"
+#include "rlgl.h"
 
 
 class Crystal {
 public:
-    explicit Crystal(float height);
+    explicit Crystal(Vector3 position, float height);
 
-    void draw();
+    void update();
+    void draw() const;
 
 private:
     static constexpr int mNumSegments { 12 };
 
-    float mHeight;
+    Vector3 mPosition { 0 };
+
+    float mHeight { 6.f };
+    float mTheta { 0.f };
 };
