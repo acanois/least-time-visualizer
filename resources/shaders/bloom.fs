@@ -20,7 +20,7 @@ const float quality = 2.5;          // Defines size factor: Lower = smaller glow
 void main()
 {
     vec4 sum = vec4(0);
-    vec2 sizeFactor = vec2(1)/size*quality;
+    vec2 sizeFactor = vec2(1) / size * quality;
 
     // Texel color fetching from texture sampler
     vec4 source = texture(texture0, fragTexCoord);
@@ -31,10 +31,10 @@ void main()
     {
         for (int y = -range; y <= range; y++)
         {
-            sum += texture(texture0, fragTexCoord + vec2(x, y)*sizeFactor);
+            sum += texture(texture0, fragTexCoord + vec2(x, y) * sizeFactor);
         }
     }
 
     // Calculate final fragment color
-    finalColor = ((sum/(samples*samples)) + source)*colDiffuse;
+    finalColor = ((sum / (samples*samples)) + source) * colDiffuse;
 }

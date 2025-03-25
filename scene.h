@@ -5,6 +5,7 @@
 #pragma once
 
 #include "scenecamera.h"
+#include "crystal.h"
 
 #include <iostream>
 #include <format>
@@ -32,5 +33,6 @@ private:
 
     bool mShowGrid { false };
 
-    std::unique_ptr<SceneCamera> mCamera = nullptr;
+    std::unique_ptr<SceneCamera> mCamera { nullptr };
+    std::unique_ptr<Crystal> mCrystal { nullptr };
 };

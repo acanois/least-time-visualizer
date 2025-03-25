@@ -35,6 +35,8 @@ add_executable(${PROJECT_NAME} main.cpp
     scenecamera.h
     scenecamera.cpp
     resources/shaders/bloom.fs
+    crystal.h
+    crystal.cpp
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE ${RAYLIB_LIB})
