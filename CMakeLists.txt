@@ -29,14 +29,19 @@ else()
     message(STATUS "Using local ${RAYLIB_LIB}")
 endif()
 
+set(SHADERS_DIR resources/shaders)
 add_executable(${PROJECT_NAME} main.cpp
     scene.h
     scene.cpp
     scenecamera.h
     scenecamera.cpp
-    resources/shaders/bloom.fs
     crystal.h
     crystal.cpp
+    ${SHADERS_DIR}/bloom.fs
+    ${SHADERS_DIR}/cubemap.vs
+    ${SHADERS_DIR}/cubemap.fs
+    ${SHADERS_DIR}/skybox.vs
+    ${SHADERS_DIR}/skybox.fs
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE ${RAYLIB_LIB})
