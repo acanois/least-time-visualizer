@@ -26,6 +26,8 @@ private:
     void update();
     void draw();
     static Shader loadShader(std::string fileName);
+    static Shader loadShader(std::string vertexName, std::string fragmentName);
+    static Image loadImage(std::string fileName);
 
 
 private:

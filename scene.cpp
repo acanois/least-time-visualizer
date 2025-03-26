@@ -27,6 +27,25 @@ Shader Scene::loadShader(std::string fileName) {
     return shader;
 }
 
+Shader Scene::loadShader(std::string vertexName, std::string fragmentName) {
+    auto rootDir = GetPrevDirectoryPath(GetWorkingDirectory());
+    auto vertexPath = std::format("{}/resources/shaders/{}", rootDir, vertexName);
+    auto fragmentPath = std::format("{}/resources/shaders/{}", rootDir, fragmentName);
+
+    Shader shader = LoadShader(vertexPath.c_str(), fragmentPath.c_str());
+
+    return shader;
+}
+
+Image Scene::loadImage(std::string fileName) {
+    auto rootDir = GetPrevDirectoryPath(GetWorkingDirectory());
+    auto filePath = std::format("{}/resources/images/{}", rootDir, fileName);
+
+    Image image = LoadImage(filePath.c_str());
+
+    return image;
+}
+
 void Scene::run() {
     InitWindow(mWindowWidth, mWindowHeight, "Least Time");
     SetTargetFPS(60);
@@ -37,9 +56,50 @@ void Scene::run() {
 
     rlSetBlendMode(RL_BLEND_DST_ALPHA);
 
+    // Render Texture
     RenderTexture2D target = LoadRenderTexture(1280, 720);
 
-    // GetWorkingDirectory returns the build directory, hence GetPrevDirectoryPath
+    // Skybox
+    Mesh cube = GenMeshCube(100.f, 100.f, 100.f);
+    Model skybox = LoadModelFromMesh(cube);
+
+    auto useHDR = false;
+    skybox.materials[0].shader = loadShader("skybox.vs", "skybox.fs");
+    SetShaderValue(
+        skybox.materials[0].shader,
+        GetShaderLocation(skybox.materials[0].shader, "environmentMap"),
+        (int[1]){ MATERIAL_MAP_CUBEMAP },
+        SHADER_UNIFORM_INT
+    );
+    SetShaderValue(
+        skybox.materials[0].shader,
+        GetShaderLocation(skybox.materials[0].shader, "doGamma"),
+        (int[1]) { useHDR ? 1 : 0 },
+        SHADER_UNIFORM_INT);
+    SetShaderValue(
+        skybox.materials[0].shader,
+        GetShaderLocation(skybox.materials[0].shader, "vflipped"),
+        (int[1]){ useHDR ? 1 : 0 },
+        SHADER_UNIFORM_INT
+    );
+
+    // Cubemap for skybox
+    Shader shdrCubemap = loadShader("cubemap.vs", "cubemap.fs");
+    SetShaderValue(
+        shdrCubemap,
+        GetShaderLocation(shdrCubemap, "equirectangularMap"),
+        (int[1]){ 0 },
+        SHADER_UNIFORM_INT
+    );
+
+    Image skyboxTexture = loadImage("skybox.png");
+    skybox.materials[0].maps[MATERIAL_MAP_CUBEMAP].texture = LoadTextureCubemap(
+        skyboxTexture,
+        CUBEMAP_LAYOUT_AUTO_DETECT
+    );
+    UnloadImage(skyboxTexture);
+
+    // Postprocessing Bloom Shader
     auto shader = loadShader("bloom.fs");
 
     while (!WindowShouldClose()) {
@@ -48,14 +108,6 @@ void Scene::run() {
         mCamera->beginMode3d();
 
         mCrystal->draw();
-
-        DrawSphereWires(
-            Vector3 { 0.f, 0.f, 0.f },
-            50.f,
-            6.f,
-            12.f,
-            Color{ 39, 39, 96, 255 }
-        );
 
         if (IsKeyPressed(KEY_G)) mShowGrid = !mShowGrid;
         if (mShowGrid) DrawGrid(10, 1.0f);
@@ -82,8 +134,11 @@ void Scene::run() {
         update();
     }
 
+    UnloadShader(shdrCubemap);
+    UnloadShader(skybox.materials[0].shader);
     UnloadShader(shader);
     UnloadRenderTexture(target);
+    UnloadModel(skybox);
 }
 
 void Scene::update() {

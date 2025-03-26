@@ -30,7 +30,8 @@ else()
 endif()
 
 set(SHADERS_DIR resources/shaders)
-add_executable(${PROJECT_NAME} main.cpp
+add_executable(${PROJECT_NAME}
+    main.cpp
     scene.h
     scene.cpp
     scenecamera.h
@@ -45,3 +46,8 @@ add_executable(${PROJECT_NAME} main.cpp
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE ${RAYLIB_LIB})
+
+target_compile_definitions(${PROJECT_NAME}
+    PUBLIC
+    ASSETS_PATH="${CMAKE_CURRENT_SOURCE_DIR}/resources/images/"
+)
