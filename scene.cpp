@@ -100,12 +100,20 @@ void Scene::run() {
     UnloadImage(skyboxTexture);
 
     // Postprocessing Bloom Shader
-    auto shader = loadShader("bloom.fs");
+    auto shdrBloom = loadShader("bloom.fs");
 
     while (!WindowShouldClose()) {
         BeginTextureMode(target);
         ClearBackground(Color { 7, 6, 4, 255 });
+
         mCamera->beginMode3d();
+
+        // Draw the skybox
+        rlDisableBackfaceCulling();  // To see skybox texture
+        rlDisableDepthMask();
+            DrawModel(skybox, Vector3 { 0.f, 0.f, 0.f }, 1.f, WHITE);
+        rlEnableBackfaceCulling();
+        rlEnableDepthMask();
 
         mCrystal->draw();
 
@@ -118,7 +126,6 @@ void Scene::run() {
         BeginDrawing();
         ClearBackground(Color { 7, 6, 4, 255 });
 
-        BeginShaderMode(shader);
         DrawTextureRec(
             target.texture,
             Rectangle {
@@ -129,16 +136,17 @@ void Scene::run() {
             Vector2 { 0, 0 },
             WHITE
         );
-        EndShaderMode();
         EndDrawing();
         update();
     }
 
     UnloadShader(shdrCubemap);
     UnloadShader(skybox.materials[0].shader);
-    UnloadShader(shader);
+    UnloadShader(shdrBloom);
     UnloadRenderTexture(target);
     UnloadModel(skybox);
+
+    CloseWindow();
 }
 
 void Scene::update() {
