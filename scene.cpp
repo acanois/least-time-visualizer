@@ -88,11 +88,11 @@ void Scene::run() {
     SetShaderValue(
         shdrCubemap,
         GetShaderLocation(shdrCubemap, "equirectangularMap"),
-        (int[1]){ 0 },
-        SHADER_UNIFORM_INT
+        (float[1]) { 0 },
+        SHADER_UNIFORM_FLOAT
     );
 
-    Image skyboxTexture = loadImage("skybox.png");
+    Image skyboxTexture = loadImage("skybox-blue-night.png");
     skybox.materials[0].maps[MATERIAL_MAP_CUBEMAP].texture = LoadTextureCubemap(
         skyboxTexture,
         CUBEMAP_LAYOUT_AUTO_DETECT
@@ -151,7 +151,7 @@ void Scene::run() {
 
 void Scene::update() {
     mCameraTheta += 0.1;
-//    mCamera->updateOrbitalCamera(mCameraTheta, 20.f);
+    mCamera->updateOrbitalCamera(mCameraTheta, 20.f);
     mCrystal->update();
 }
 
