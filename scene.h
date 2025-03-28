@@ -34,10 +34,8 @@ private:
     static constexpr int mWindowWidth { 1280 };
     static constexpr int mWindowHeight { 720 };
 
-    float mCameraTheta = 0.f;
-
-    bool mShowGrid { false };
-
     std::unique_ptr<SceneCamera> mCamera { nullptr };
     std::unique_ptr<Crystal> mCrystal { nullptr };
+
+    float mCameraTheta = 0.f;
 };

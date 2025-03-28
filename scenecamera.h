@@ -14,8 +14,13 @@ public:
 
     void updateCamera();
     void updateOrbitalCamera(float angle, float radius);
+    void setPositionToOverhead();
+    void resetPosition();
+
     void beginMode3d();
     static void endMode3d();
+
+
 
 private:
     static float angleToRads(float angle);

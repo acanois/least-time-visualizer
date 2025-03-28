@@ -56,16 +56,39 @@ void Scene::run() {
 
     rlSetBlendMode(RL_BLEND_DST_ALPHA);
 
+    bool showGrid = false;
+    float groundHeight = -5.f;
+
     while (!WindowShouldClose()) {
+        if (IsKeyPressed(KEY_ONE)) mCamera->resetPosition();
+        if (IsKeyPressed(KEY_TWO)) mCamera->setPositionToOverhead();
+
         BeginDrawing();
-        ClearBackground(Color { 7, 6, 4, 255 });
+        ClearBackground(Color { 24, 29, 39, 255 });
 
         mCamera->beginMode3d();
 
         mCrystal->draw();
 
-        if (IsKeyPressed(KEY_G)) mShowGrid = !mShowGrid;
-        if (mShowGrid) DrawGrid(10, 1.0f);
+        DrawCircle3D(
+            Vector3 { 0.f, groundHeight + 0.1f, 0.f },
+            10.f,
+            Vector3 { 1.f, 0.f, 0.f },
+            90.f,
+            Color { 255, 255, 255, 255 }
+        );
+
+        rlPushMatrix();
+        rlTranslatef(0.f, groundHeight, 0.f);
+        DrawPlane(
+            Vector3 { 0.f, 0.f, 0.f },
+            Vector2 { 60.f, 60.f },
+            Color { 125, 130, 184, 255 }
+        );
+        rlPopMatrix();
+
+        if (IsKeyPressed(KEY_G)) showGrid = !showGrid;
+        if (showGrid) DrawGrid(10, 1.0f);
 
         mCamera->endMode3d();
         EndDrawing();
@@ -76,8 +99,8 @@ void Scene::run() {
 }
 
 void Scene::update() {
-    mCameraTheta += 0.1;
-    mCamera->updateOrbitalCamera(mCameraTheta, 20.f);
+//    mCameraTheta += 0.1;
+//    mCamera->updateOrbitalCamera(mCameraTheta, 20.f);
     mCrystal->update();
 }
 
