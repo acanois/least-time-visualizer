@@ -34,11 +34,11 @@ void SceneCamera::updateOrbitalCamera(float angle, float radius) {
 }
 
 void SceneCamera::setPositionToOverhead() {
-    mCamera.position = Vector3 { 0.f, 20.f, 0001.f };
+    mCamera.position = Vector3 { 0.f, 25.f, 0001.f };
 }
 
 void SceneCamera::resetPosition() {
-    mCamera.position = Vector3 { 0.f, 0.f, -20.f };
+    mCamera.position = Vector3 { 0.f, 0.f, -25.f };
 }
 
 float SceneCamera::angleToRads(float angle) {

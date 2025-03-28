@@ -37,5 +37,7 @@ private:
     std::unique_ptr<SceneCamera> mCamera { nullptr };
     std::unique_ptr<Crystal> mCrystal { nullptr };
 
+    static constexpr int NUM_CRYSTALS = 16;
+
     float mCameraTheta = 0.f;
 };

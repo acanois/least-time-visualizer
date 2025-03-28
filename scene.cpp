@@ -7,13 +7,13 @@
 
 Scene::Scene()
     : mCamera(std::make_unique<SceneCamera>(
-        Vector3 { 0.f, 0.f, -20.f },
+        Vector3 { 0.f, 0.f, -25.f },
         Vector3 { 0.f, 0.f, 0.f },
         Vector3 { 0.f, 1.f, 0.f },
         45.f,
         CAMERA_PERSPECTIVE
     )),
-    mCrystal(std::make_unique<Crystal>(Vector3 { 0.f, 0.f, 0.f }, 6.f))
+    mCrystal(std::make_unique<Crystal>(Vector3 { 0.f, 0.f, 0.f }, 4.f, Color { 243, 243, 244, 255 }))
 {
 
 }
@@ -72,10 +72,10 @@ void Scene::run() {
 
         DrawCircle3D(
             Vector3 { 0.f, groundHeight + 0.1f, 0.f },
-            10.f,
+            12.f,
             Vector3 { 1.f, 0.f, 0.f },
             90.f,
-            Color { 255, 255, 255, 255 }
+            Color { 243, 243, 244, 255 }
         );
 
         rlPushMatrix();
