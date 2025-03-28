@@ -51,3 +51,7 @@ void Crystal::draw() const {
 
     rlPopMatrix();
 }
+
+float Crystal::getHeight() const {
+    return mHeight;
+}

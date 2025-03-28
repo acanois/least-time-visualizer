@@ -13,6 +13,7 @@
 #include <iostream>
 #include <format>
 #include <memory>
+#include <array>
 
 class Scene {
 public:
@@ -36,8 +37,10 @@ private:
 
     std::unique_ptr<SceneCamera> mCamera { nullptr };
     std::unique_ptr<Crystal> mCrystal { nullptr };
+    std::vector<std::unique_ptr<Crystal>> mSubCrystals;
 
     static constexpr int NUM_CRYSTALS = 16;
+    static constexpr float CIRCLE_RADIUS = 12.f;
 
     float mCameraTheta = 0.f;
 };

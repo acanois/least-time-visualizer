@@ -13,7 +13,10 @@ Scene::Scene()
         45.f,
         CAMERA_PERSPECTIVE
     )),
-    mCrystal(std::make_unique<Crystal>(Vector3 { 0.f, 0.f, 0.f }, 4.f, Color { 243, 243, 244, 255 }))
+    mCrystal(std::make_unique<Crystal>(
+        Vector3 { 0.f, 0.f, 0.f },
+        4.f, Color { 243, 243, 244, 255 }
+    ))
 {
 
 }
@@ -57,7 +60,28 @@ void Scene::run() {
     rlSetBlendMode(RL_BLEND_DST_ALPHA);
 
     bool showGrid = false;
-    float groundHeight = -5.f;
+
+    auto crystalHeight = mCrystal->getHeight();
+    auto groundHeight = -crystalHeight - (crystalHeight / 2.f);
+
+    auto angle = 0.f;
+    auto angleIncrement = 360.f / static_cast<float>(NUM_CRYSTALS);
+    auto subCrystalHeight = crystalHeight / 3.f;
+    auto subCrystalYPos = groundHeight + subCrystalHeight * 1.5f;
+
+    for (auto i = 0; i < NUM_CRYSTALS; i++) {
+        auto theta = angle * static_cast<float>(M_PI) / 180.f;
+        mSubCrystals.push_back(std::make_unique<Crystal>(
+            Vector3 {
+                sin(theta) * CIRCLE_RADIUS,
+                subCrystalYPos,
+                cos(theta) * CIRCLE_RADIUS
+            },
+            1.f,
+            ColorFromHSV(angle, 0.75f, 1.f)
+        ));
+        angle += angleIncrement;
+    }
 
     while (!WindowShouldClose()) {
         if (IsKeyPressed(KEY_ONE)) mCamera->resetPosition();
@@ -70,9 +94,14 @@ void Scene::run() {
 
         mCrystal->draw();
 
+        for (auto&& crystal : mSubCrystals) {
+            crystal->draw();
+            crystal->update();
+        }
+
         DrawCircle3D(
             Vector3 { 0.f, groundHeight + 0.1f, 0.f },
-            12.f,
+            CIRCLE_RADIUS,
             Vector3 { 1.f, 0.f, 0.f },
             90.f,
             Color { 243, 243, 244, 255 }
@@ -99,8 +128,8 @@ void Scene::run() {
 }
 
 void Scene::update() {
-//    mCameraTheta += 0.1;
-//    mCamera->updateOrbitalCamera(mCameraTheta, 20.f);
+    mCameraTheta += 0.011;
+    mCamera->updateOrbitalCamera(mCameraTheta, 25.f);
     mCrystal->update();
 }
 

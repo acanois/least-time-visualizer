@@ -15,6 +15,8 @@ public:
     void update();
     void draw() const;
 
+    [[nodiscard]] float getHeight() const;
+
 private:
     static constexpr int mNumSegments { 12 };
 
