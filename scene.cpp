@@ -16,7 +16,11 @@ Scene::Scene()
     mCrystal(std::make_unique<Crystal>(
         Vector3 { 0.f, 0.f, 0.f },
         4.f, Color { 243, 243, 244, 255 }
-    ))
+    )),
+    mOscServer(
+        IpEndpointName(IpEndpointName::ANY_ADDRESS, 7000),
+        &maxReceiver
+    )
 {
 
 }
@@ -47,6 +51,10 @@ Image Scene::loadImage(std::string fileName) {
     Image image = LoadImage(filePath.c_str());
 
     return image;
+}
+
+void Scene::oscHandler(UdpListeningReceiveSocket &oscServer) {
+    oscServer.RunUntilSigInt();
 }
 
 void Scene::run() {
@@ -83,7 +91,10 @@ void Scene::run() {
         angle += angleIncrement;
     }
 
+//    std::thread oscThread(oscHandler, std::ref(mOscServer));
+
     while (!WindowShouldClose()) {
+//        oscThread.join();
         if (IsKeyPressed(KEY_ONE)) mCamera->resetPosition();
         if (IsKeyPressed(KEY_TWO)) mCamera->setPositionToOverhead();
 

@@ -10,10 +10,14 @@
 #include "raylib.h"
 #include "rlgl.h"
 
+#include "oscpack/ip/UdpSocket.h"
+#include "oscReceiver.h"
+
 #include <iostream>
 #include <format>
 #include <memory>
 #include <array>
+#include <thread>
 
 class Scene {
 public:
@@ -29,6 +33,13 @@ private:
     static Shader loadShader(std::string fileName);
     static Shader loadShader(std::string vertexName, std::string fragmentName);
     static Image loadImage(std::string fileName);
+
+    static void oscHandler(UdpListeningReceiveSocket& oscServer);
+
+
+private:
+    MaxReceiver maxReceiver;
+    UdpListeningReceiveSocket mOscServer;
 
 
 private:
